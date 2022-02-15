@@ -1,4 +1,33 @@
+import { useEffect, useState } from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {editProductAction} from '../actions/actionProducts';
+
 const EditProduct = () => {
+  const [productEdit, setProductEdit] = useState({
+    nombre: '',
+    precio: '',
+  });
+
+  const product = useSelector(state => state.products.editProduct);
+  
+  useEffect(()=>{
+    setProductEdit(product);
+  }, [product]);
+
+  //leer datos del formulario 
+  const handleOnChnage = e => {
+    setProductEdit({
+      ...productEdit,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  const {nombre, precio} = product;
+
+  const handleSubmitEdit = e => {
+    e.preventDefault();
+    editProductAction();
+  }
     return(
         <div className="container mt-5">
       <div className="row justify-content-center">
@@ -8,14 +37,16 @@ const EditProduct = () => {
               <h2 className="text-center mb-4 font-weight-bold">
                 Editar nuevo producto
               </h2>
-              <form>
+              <form onSubmit={handleSubmitEdit}>
                 <div className="form-group">
                   <label htmlFor="product">Nombre producto</label>
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Nombre producto"
-                    name="product"
+                    name="nombre"
+                    defaultValue={nombre}
+                    onChange={handleOnChnage}
                   />
                 </div>
                 <div className="form-group">
@@ -24,7 +55,9 @@ const EditProduct = () => {
                     type="text"
                     className="form-control"
                     placeholder="Nombre producto"
-                    name="price"
+                    name="precio"
+                    defaultValue={precio}
+                    onChange={handleOnChnage}
                   />
                 </div>
                 <button type="submit" className="btn btn-primary font-weight-bold text-uppercase d-block w-100">Guardar</button>

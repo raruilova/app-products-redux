@@ -8,6 +8,10 @@ import {
   GET_PRODUCT_DELETE,
   DELETE_PRODUCT_ERROR,
   DELETE_PRODUCT_SUCCESS,
+  EDIT_PRODUCT_ERROR,
+  EDIT_PRODUCT_SUCCESS,
+  GET_PRODUCT_EDIT,
+  STAR_EDIT_PRODUCT
 } from "../types";
 
 import { axiosClient } from "../config/axios";
@@ -112,4 +116,33 @@ const successDeleteProduct = () => ({
 const deleteProductError = () => ({
     type: DELETE_PRODUCT_ERROR,
     payload: true
-})
+});
+
+//colocar producto en edicion 
+export function editProduct(product) {
+    return async (dispatch) => {
+        dispatch(getProductEdit(product));
+    }
+}
+
+const getProductEdit = (product) => ({
+    type: GET_PRODUCT_EDIT,
+    payload: product
+});
+
+//editar producto en la api y state 
+export function editProductAction(product) {
+    return async (dispatch) => {
+        dispatch(editProductStart(product));
+        try {
+          await axiosClient.put(`/productos/${product.id}`, product);
+        } catch (error) {
+          
+        }
+    }
+}
+
+const editProductStart = (product) => ({
+    type: STAR_EDIT_PRODUCT,
+    payload: product
+});
