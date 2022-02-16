@@ -8,7 +8,7 @@
     {
       "id": 2,
       "nombre": "Jugo de Naranja",
-      "precio": "1"
+      "precio": "13"
     },
     {
       "nombre": "Jugo de Naranja",
@@ -19,6 +19,11 @@
       "nombre": "Rib Eye 800g",
       "precio": "200",
       "id": 4
+    },
+    {
+      "nombre": "Jugo de Naranja supermercado",
+      "precio": "45",
+      "id": 5
     }
   ]
 }

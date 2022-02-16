@@ -133,16 +133,26 @@ const getProductEdit = (product) => ({
 //editar producto en la api y state 
 export function editProductAction(product) {
     return async (dispatch) => {
-        dispatch(editProductStart(product));
+        dispatch(editProductStart());
         try {
           await axiosClient.put(`/productos/${product.id}`, product);
+          dispatch(editProductSuccess(product));
         } catch (error) {
-          
+          dispatch(editProductError());
         }
     }
 }
 
-const editProductStart = (product) => ({
-    type: STAR_EDIT_PRODUCT,
+const editProductStart = () => ({
+    type: STAR_EDIT_PRODUCT
+});
+
+const editProductSuccess = (product) => ({
+    type: EDIT_PRODUCT_SUCCESS,
     payload: product
 });
+
+const editProductError = () => ({
+  type: EDIT_PRODUCT_ERROR,
+  payload: true
+}) 

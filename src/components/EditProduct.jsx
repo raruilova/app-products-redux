@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {editProductAction} from '../actions/actionProducts';
+import { useDispatch, useSelector } from 'react-redux';
+import { editProductAction } from '../actions/actionProducts';
+import { useNavigate } from 'react-router-dom';
 
 const EditProduct = () => {
   const [productEdit, setProductEdit] = useState({
@@ -8,9 +9,12 @@ const EditProduct = () => {
     precio: '',
   });
 
+  const navigate = useNavigate();
+
   const product = useSelector(state => state.products.editProduct);
-  
-  useEffect(()=>{
+  const dispatch = useDispatch();
+
+  useEffect(() => {
     setProductEdit(product);
   }, [product]);
 
@@ -22,14 +26,15 @@ const EditProduct = () => {
     });
   }
 
-  const {nombre, precio} = product;
+  const { nombre, precio } = product;
 
   const handleSubmitEdit = e => {
     e.preventDefault();
-    editProductAction();
+    dispatch(editProductAction(productEdit));
+    navigate('/');
   }
-    return(
-        <div className="container mt-5">
+  return (
+    <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card">
@@ -67,7 +72,7 @@ const EditProduct = () => {
         </div>
       </div>
     </div>
-    )
+  )
 }
 
 export default EditProduct;

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 //useDispatch es para mandar a ejecutar las acciones que tengamos y useSelector es una forma de acceder al estado dentro del componente
 //actions of redux
 import { createNewProductAction } from "../actions/actionProducts";
+import {showAlert, hideAlert} from '../actions/alertActions';
 
 const NewProducts = () => {
   const [product, setProduct] = useState({
@@ -17,6 +18,7 @@ const NewProducts = () => {
   //acceder al state del store
   const loading = useSelector((state) => state.products.loading); //accediendo al state, useSelector se le pasa una arrow function y de ese parametro state accedo al objeto products y voy sacando lo que quiero
   const error = useSelector((state) => state.products.error); //products es porque asi le puse al reducer, ver index.js de reducers
+  const alert = useSelector(state => state.alert.alert);
 
   const handleOnChange = (e) => {
     setProduct({
@@ -35,10 +37,15 @@ const NewProducts = () => {
     e.preventDefault();
     //validar
     if (nombre.trim() === "" || precio <= 0) {
+      const response = {
+        message: 'Ambos campos son obligatorios',
+        clases: 'alert alert-danger text-center text-uppercase p-3',
+      }
+      dispatch(showAlert(response));
       return;
     }
-    //errores
-
+    //si no hay errores
+    dispatch(hideAlert());
     //crear nuevo producto
     addProduct({
       nombre,
@@ -57,6 +64,7 @@ const NewProducts = () => {
               <h2 className="text-center mb-4 font-weight-bold">
                 Agregar nuevo producto
               </h2>
+              {alert ? <p className={alert.clases}>{alert.message}</p> : null}
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="nombre">Nombre producto</label>
