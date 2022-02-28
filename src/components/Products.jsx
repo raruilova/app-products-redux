@@ -16,6 +16,9 @@ const Products = () => {
   const products = useSelector((state) => state.products.products);
   const error = useSelector(state => state.products.error);
 
+  const api = import.meta.env.VITE_BASE_URL;
+  console.log(api);
+
   return (
     <div className="container mt-5">
       <h2 className="text-center my5">Listado de productos</h2>
